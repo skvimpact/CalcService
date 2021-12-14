@@ -2,14 +2,15 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace CalcService.Controllers
 {
-    [Route("/calc")]
+    [Route("[controller]")]
+    [ApiController]
     public class CalcController : Controller
     {
         [HttpGet]
-        public IActionResult Magnify()
+        [Route("{a}/{b}")]
+        public IActionResult Add(int a, int b)
         {
-            int a = 8;
-            return Ok(a * 5);
+            return Ok( a + b );
         }        
     }
 }
