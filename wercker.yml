@@ -1,0 +1,48 @@
+box: mcr.microsoft.com/dotnet/runtime:5.0
+no-response-timeout: 10
+build:
+  steps: 
+    - script:
+        name: restore
+        cwd: src/CalcService
+        code: |
+          dotnet restore
+    - script:
+        name: build
+        cwd: src/CalcService
+        code: |
+          dotnet build  
+    - script:
+        name: publish
+        cwd: src/CalcService
+        code: |
+          dotnet publish -o publish
+    - script:
+        name: test-restore
+        cwd: test/CalcService.Tests
+        code: |
+           dotnet restore
+    - script:
+        name: test-build
+        cwd: test/CalcService.Tests
+        code: |
+          dotnet build
+    - script:
+        name: test-run
+        cwd: test/CalcService.Tests
+        code: |
+          dotnet test
+    - script:
+        name: copy binary
+        cwd: src/CalcService
+        code: |
+          cp -r . $WERCKER_OUTPUT_DIR/app 
+deploy:
+  steps:
+    - internal/docker-push:
+        cwd: $WERCKER_OUTPUT_DIR/app
+        username: $USERNAME
+        password: $PASSWORD
+        repository: skvimpact/callservice
+        registry: https://registry.hub.docker.com
+        entrypoint: "/pipeline/source/app/docker_entrypoint.sh"

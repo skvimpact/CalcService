@@ -2,7 +2,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace CalcService.Controllers
 {
-    [Route("[controller]")]
+    [Route( template: "[controller]")]
     [ApiController]
     public class CalcController : Controller
     {
