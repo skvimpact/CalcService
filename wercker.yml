@@ -1,4 +1,4 @@
-box: mcr.microsoft.com/dotnet/runtime:5.0
+box: mcr.microsoft.com/dotnet/sdk:5.0
 no-response-timeout: 10
 build:
   steps: 
